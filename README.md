@@ -3,7 +3,7 @@ Get free month from Netflix, OCS...
 
 ## TODO 
 
-- [x] Generate account for free month
+- [x] Generate account for free month
 - [ ] Generate virtual credit card with amount for Netflix
 - [ ] Close account before the end of free month
 - [ ] Support OCS
