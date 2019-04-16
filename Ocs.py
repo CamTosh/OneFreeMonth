@@ -102,3 +102,14 @@ class Ocs(object):
 
     def quit(self):
         self.browser.quit()
+
+    def cancelSubscription(self):
+        base_url = 'https://go.ocs.fr/'
+        self.browser.get(base_url)
+        sleep(1)
+        self.browser.find_elements_by_css_selector('span.delete_profil')[0].click()
+        sleep(1)
+        self.browser.find_elements_by_css_selector('span.confirm_delete_profil')[0].click()
+
+
+        cancelContainer.find_elements_by_css_selector('button.btn')[0].click()

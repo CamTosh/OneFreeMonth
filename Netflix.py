@@ -86,3 +86,9 @@ class Netflix(object):
 
     def quit(self):
         self.browser.quit()
+
+    def cancelSubscription(self):
+        accountUrl = 'https://www.netflix.com/CancelPlan'
+        self.browser.get(accountUrl)
+        cancelContainer = self.browser.find_elements_by_css_selector('div.cancelContainer')[0]
+        cancelContainer.find_elements_by_css_selector('button.btn')[0].click()
