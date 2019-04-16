@@ -11,7 +11,8 @@ class Netflix(object):
         
         self.browser = webdriver.Chrome(options=options)
 
-    def register(self, email, passwd, cbNumber, expireDate, cvv, cardLastName, cardFirstName):
+    def register(self, email, passwd, cbNumber, expireMonth, expireYear, cvv, cardLastName, cardFirstName):
+        expireDate = str(expireMonth) + str(expireYear)[2:4]
         self.browser.get(self.base_url)
         sleep(1)
         self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
