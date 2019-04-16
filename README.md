@@ -6,7 +6,8 @@ Get free month from Netflix, OCS...
 Tested with Python 3.7.
 
 `pip install -r requirements.txt`
-`py app.py`
+
+`py app.py --help`
 
 ## TODO 
 
