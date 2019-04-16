@@ -1,0 +1,3 @@
+selenium==3.141.0
+faker==1.0.5
+python-dotenv==0.8.2
