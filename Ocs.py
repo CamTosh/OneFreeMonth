@@ -1,9 +1,10 @@
+from Provider import Provider
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 from time import sleep
 from faker import Faker
 
-class Ocs(object):
+class Ocs(Provider):
     
     def __init__(self, threeScreen):
         two_screen = 'https://www.ocs.fr/souscription/creation?offer=999'
@@ -14,14 +15,15 @@ class Ocs(object):
         else:
             self.base_url = two_screen
 
-        self.fake = Faker()
+        self.faker = Faker()
 
         options = webdriver.ChromeOptions()
-        #options.add_argument("--headless")
+        options.add_argument("--headless")
         self.browser = webdriver.Chrome(options=options)
+        super().__init__(browser=self.browser)
 
     def register(self, email, passwd, cbNumber, expireMonth, expireYear, cvv, cardLastName, cardFirstName):
-        name = self.fake.name()
+        name = self.faker.name()
         firstname = name.split(' ')[0]
         lastname = name.split(' ')[1]
 
@@ -29,7 +31,7 @@ class Ocs(object):
         sleep(1)
         
         # Create account
-        self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        self.scrollToDown()
 
         firstNameEl = self.browser.find_element_by_name("firstname")
         firstNameEl.send_keys(firstname)
@@ -98,9 +100,6 @@ class Ocs(object):
         sleep(20)
         
         self.browser.switch_to.default_content()
-        self.browser.quit()
-
-    def quit(self):
         self.browser.quit()
 
     def cancelSubscription(self):

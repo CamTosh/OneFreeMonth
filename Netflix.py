@@ -1,7 +1,8 @@
+from Provider import Provider
 from selenium import webdriver
 from time import sleep
 
-class Netflix(object):
+class Netflix(Provider):
     
     def __init__(self):
         self.base_url = 'https://www.netflix.com/signup/regform'
@@ -10,12 +11,13 @@ class Netflix(object):
         options.add_argument("--headless")
         
         self.browser = webdriver.Chrome(options=options)
+        super().__init__(browser=self.browser)
 
     def register(self, email, passwd, cbNumber, expireMonth, expireYear, cvv, cardLastName, cardFirstName):
         expireDate = str(expireMonth) + str(expireYear)[2:4]
         self.browser.get(self.base_url)
         sleep(1)
-        self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        self.scrollToDown()
 
         # First step
         centerContainer = self.browser.find_elements_by_css_selector('div.centerContainer')[0]
@@ -25,7 +27,7 @@ class Netflix(object):
         sleep(1)
         
         # Select plan
-        self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        self.scrollToDown()
         centerContainer = self.browser.find_elements_by_css_selector('div.centerContainer')[0]
         container = centerContainer.find_elements_by_css_selector('div.submitBtnContainer')[0]
         button = container.find_elements_by_css_selector('button.nf-btn')[0]
@@ -33,7 +35,7 @@ class Netflix(object):
         sleep(1)
         
         # Go to create account page
-        self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        self.scrollToDown()
         centerContainer = self.browser.find_elements_by_css_selector('div.centerContainer')[0]
         container = centerContainer.find_elements_by_css_selector('div.submitBtnContainer')[0]
         button = container.find_elements_by_css_selector('button.nf-btn')[0]
@@ -49,14 +51,14 @@ class Netflix(object):
         password.send_keys(passwd)
         
         # Send create account
-        self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        self.scrollToDown()
         container = self.browser.find_elements_by_css_selector('div.submitBtnContainer')[0]
         button = container.find_elements_by_css_selector('button.nf-btn')[0]
         button.click()
         sleep(1)
 
         # Select card payement
-        self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        self.scrollToDown()
         centerContainer = self.browser.find_elements_by_css_selector('div.paymentContainer')[0]
         link = centerContainer.find_elements_by_css_selector('a.nfTabSelection--active')[0]
         link.click()
@@ -78,13 +80,10 @@ class Netflix(object):
         creditCardCode = self.browser.find_element_by_name("creditCardSecurityCode")
         creditCardCode.send_keys(cvv)
         
-        self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        self.scrollToDown()
         container = self.browser.find_elements_by_css_selector('div.submitBtnContainer')[0]
         button = container.find_elements_by_css_selector('button.nf-btn')[0]
         button.click()
-        self.browser.quit()
-
-    def quit(self):
         self.browser.quit()
 
     def cancelSubscription(self):
